@@ -1,6 +1,33 @@
 <h1 align="center">Hi 👋, I'm Adam</h1>
 <h3 align="center">A passionate fullstack developer from France</h3>
 
+<h3 align="left">Project deadline:</h3>
+<h4>the library allows you to calculate open days based on the opening hours of an entity</h4>
+
+```java
+    @Bean
+    public Calendar calendar() throws DeadLineException {
+        return Calendar.newCalendar("MONDAY_TUESDAY")
+                .createPeriod(DayOfWeek.MONDAY, "9:00", "17:00")
+                .createPeriod(DayOfWeek.TUESDAY, "10:00", "12:00")
+                .createPeriod(DayOfWeek.TUESDAY, "14:00", "18:00")
+                .addYearlyOffDay(01, 01, 100)
+                .addOffDay(29, 05, 2023)
+                .build();
+    }
+```
+
+You can now use it :
+
+```java
+
+   Date date = calendar.calcDeadLine("PT11M", new Date());
+
+```
+
+Inside we receive a date and we convert it to UTC and then convert it to date. But you don’t need to pay attention to this.
+
+
 <h3 align="left">Connect with me:</h3>
 <p align="left">
 <a href="https://linkedin.com/in/adam-mezzasalma-b7ba80206/" target="blank"><img align="center" src="https://raw.githubusercontent.com/rahuldkjain/github-profile-readme-generator/master/src/images/icons/Social/linked-in-alt.svg" alt="https://www.linkedin.com/in/adam-mezzasalma-b7ba80206/" height="30" width="40" /></a>
