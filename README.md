@@ -37,7 +37,7 @@
 ## Case 2 : 
 
 
-<h6>Now you want to specify several calendar because you have several teams that do not have the same working hour :</h6>
+<h6>Now you want to specify several calendar for different teams that do not have the same working hour :</h6>
 
 ```java
         @Bean
