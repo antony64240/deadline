@@ -30,4 +30,6 @@ public abstract class Calendar implements Serializable {
 
     }
 
+    public abstract Date calcDeadLine(String duration, Date date) throws Exception;
+
 }
