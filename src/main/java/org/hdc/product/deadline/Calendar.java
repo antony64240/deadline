@@ -9,7 +9,7 @@ public abstract class Calendar implements Serializable {
     protected Calendar() {
     }
 
-    public static Builder newCalendar(String name) {
+    public static Builder createCalendar(String name) {
         return new CalendarBuilderImpl(name);
     }
 

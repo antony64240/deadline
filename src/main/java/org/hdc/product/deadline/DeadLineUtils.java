@@ -67,9 +67,9 @@ public final class DeadLineUtils {
     }
 
     private static LocalDateTime setTime(Long durationSecond, LocalDateTime localDateTime) {
-        Long numberHours = durationSecond / 3600;
-        Long numberMinute = (durationSecond % 3600) / 60;
-        Long numberSecond = (durationSecond % 60);
+        long numberHours = durationSecond / 3600;
+        long numberMinute = (durationSecond % 3600) / 60;
+        long numberSecond = (durationSecond % 60);
         return localDateTime.plusMinutes(numberMinute).plusHours(numberHours).plusSeconds(numberSecond);
     }
 

@@ -7,15 +7,15 @@ import java.util.Date;
 
 public class Period {
 
-    private Long duration;
-    private LocalDateTime startPeriod;
-    private LocalDateTime endPeriod;
+    private final Long duration;
+    private final LocalDateTime startPeriod;
+    private final LocalDateTime endPeriod;
 
     public Period(String startPeriod, String endPeriod) throws DeadLineException {
         String[] tab = startPeriod.split(":");
-        this.startPeriod = LocalDateTime.of(0, 1, 1, Integer.valueOf(tab[0]), Integer.valueOf(tab[1]));
+        this.startPeriod = LocalDateTime.of(0, 1, 1, Integer.parseInt(tab[0]), Integer.parseInt(tab[1]));
         tab = endPeriod.split(":");
-        this.endPeriod = LocalDateTime.of(0, 1, 1, Integer.valueOf(tab[0]), Integer.valueOf(tab[1]));
+        this.endPeriod = LocalDateTime.of(0, 1, 1, Integer.parseInt(tab[0]), Integer.parseInt(tab[1]));
         Date tmpStartPeriod = Date.from(this.startPeriod.toInstant(ZoneOffset.UTC));
         Date tmpEndPeriod = Date.from(this.endPeriod.toInstant(ZoneOffset.UTC));
         this.duration = (tmpEndPeriod.getTime() - tmpStartPeriod.getTime()) / 1000;
