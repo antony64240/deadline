@@ -10,4 +10,11 @@ public class DeadLineException extends java.lang.Exception {
         this.vendorCode = vendorCode;
     }
 
+    public enum EnumCode {
+
+    }
+
+    public int getVendorCode() {
+        return vendorCode;
+    }
 }

@@ -2,7 +2,15 @@
 <h3 align="center">A passionate fullstack developer from France</h3>
 
 <h3 align="left">Project deadline:</h3>
-<h4>the library allows you to calculate open days based on the opening hours of an entity</h4>
+<br/>
+<h6>the library allows you to calculate open days based on the opening hours of an entity</h6>
+
+
+
+## Case 1 : 
+
+
+<h6>You want to specify one calendar because all the teams have the same working hour :</h6>
 
 ```java
     @Bean
@@ -17,7 +25,7 @@
     }
 ```
 
-You can now use it :
+<h6>You can now use it :</h6>
 
 ```java
 
@@ -25,10 +33,53 @@ You can now use it :
 
 ```
 
-Inside we receive a date and we convert it to UTC and then convert it to date. But you don’t need to pay attention to this.
+
+## Case 2 : 
 
 
-For add in java project : 
+<h6>Now you want to specify several calendar because you have several teams that do not have the same working hour :</h6>
+
+```java
+        @Bean
+        public CalendarManager calendarManager() throws DeadLineException {
+            Calendar calendar = Calendar.createCalendar()
+                .createPeriod(DayOfWeek.MONDAY, "9:00", "17:00")
+                .createPeriod(DayOfWeek.TUESDAY, "10:00", "12:00")
+                .createPeriod(DayOfWeek.TUESDAY, "14:00", "18:00")
+                .addYearlyOffDay(01, 01, 100)
+                .addOffDay(29, 05, 2023)
+                .build();
+    
+            Calendar calendar2 = Calendar.createCalendar()
+                .createPeriod(DayOfWeek.MONDAY, "9:00", "17:00")
+                .createPeriod(DayOfWeek.TUESDAY, "10:00", "12:00")
+                .createPeriod(DayOfWeek.TUESDAY, "14:00", "21:00")
+                .createPeriod(DayOfWeek.THURSDAY, "14:00", "18:00")
+                .addYearlyOffDay(01, 01, 100)
+                .addOffDay(29, 05, 2023)
+                .build();
+    
+            return CalendarManager
+                .createCalendarManager()
+                .addCalendar("MONDAY_TUESDAY", calendar)
+                .addCalendar("MONDAY_THURSDAY", calendar)
+                .forceSystemDeadLineOnThrow(true) // default is false
+                .build();
+        }
+```
+
+<h6>You can now use it :</h6>
+
+```java
+
+   Date date = calendarManager.calcDeadLine("MONDAY_TUESDAY", "PT11M", new Date());
+
+```
+
+<h6>Inside we receive a date and we convert it to UTC and then convert it to date. But you don’t need to pay attention to this.
+
+
+<h6>For add in java project : </h6>
 ```maven 
 <dependency>
   <groupId>org.hdc.product</groupId>

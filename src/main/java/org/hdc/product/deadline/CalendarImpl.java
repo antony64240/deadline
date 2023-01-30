@@ -10,9 +10,7 @@ import java.util.Date;
 import java.util.Map;
 import java.util.Set;
 
-public class CalendarImpl extends Calendar implements Calendar.Runner, Serializable {
-
-    private final String calendarName;
+public class CalendarImpl extends Calendar implements Serializable {
 
     private final Map<String, WorkDay> workingDays;
 
@@ -20,8 +18,7 @@ public class CalendarImpl extends Calendar implements Calendar.Runner, Serializa
 
     private final DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
 
-    public CalendarImpl(String calendarName, Map<String, WorkDay> workingDays, Set<String> offDays) {
-        this.calendarName = calendarName;
+    public CalendarImpl(Map<String, WorkDay> workingDays, Set<String> offDays) {
         this.workingDays = workingDays;
         this.offDays = offDays;
     }

@@ -1,6 +1,7 @@
 package org.hdc.product.deadline;
 
 import java.util.Date;
+import java.util.List;
 
 public abstract class CalendarManager {
 
@@ -8,21 +9,19 @@ public abstract class CalendarManager {
     }
 
     public static CalendarManager.Builder createCalendarManager() {
-        return null;
+        return new CalendarManagerBuilder();
     }
 
     public interface Builder {
-        Builder addCalendar() throws DeadLineException;
+        Builder addCalendar(String calendarName, Calendar calendar) throws DeadLineException;
+
+        Builder forceSystemDeadLineOnThrow(Boolean bool);
 
         CalendarManager build() throws DeadLineException;
     }
 
-    public interface Runner {
+    public abstract Date calcDeadLine(String calendarName, String duration, Date date) throws DeadLineException;
 
-        Date calcDeadLine(String calendarName, String duration, Date date) throws Exception;
-
-    }
-
-    public abstract Date calcDeadLine(String calendarName, String duration, Date date) throws Exception;
+    public abstract List<String> getCalendarNames(String calendarName) throws DeadLineException;
 
 }
