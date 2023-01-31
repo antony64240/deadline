@@ -80,7 +80,8 @@
 
 
 <h6>For add in java project : </h6>
-```maven 
+    
+```java
 <dependency>
   <groupId>org.hdc.product</groupId>
   <artifactId>duration-deadline</artifactId>
