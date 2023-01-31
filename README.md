@@ -15,7 +15,7 @@
 ```java
     @Bean
     public Calendar calendar() throws DeadLineException {
-        return Calendar.createCalendar("MONDAY_TUESDAY")
+        return Calendar.createCalendar()
                 .createPeriod(DayOfWeek.MONDAY, "9:00", "17:00")
                 .createPeriod(DayOfWeek.TUESDAY, "10:00", "12:00")
                 .createPeriod(DayOfWeek.TUESDAY, "14:00", "18:00")
