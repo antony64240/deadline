@@ -4,14 +4,14 @@ import java.time.LocalDateTime;
 
 public class CurrentDay {
     private LocalDateTime localDateTime;
-    private Long durationSecond;
+    private Long remainingDuration;
 
     public CurrentDay() {
     }
 
-    public CurrentDay(LocalDateTime localDateTime, Long durationSecond) {
+    public CurrentDay(LocalDateTime localDateTime, Long remainingDuration) {
         this.localDateTime = localDateTime;
-        this.durationSecond = durationSecond;
+        this.remainingDuration = remainingDuration;
     }
 
     public LocalDateTime getLocalDateTime() {
@@ -22,11 +22,11 @@ public class CurrentDay {
         this.localDateTime = localDateTime;
     }
 
-    public Long getDurationSecond() {
-        return durationSecond;
+    public Long getRemainingDuration() {
+        return remainingDuration;
     }
 
-    public void setDurationSecond(Long durationSecond) {
-        this.durationSecond = durationSecond;
+    public void setRemainingDuration(Long remainingDuration) {
+        this.remainingDuration = remainingDuration;
     }
 }

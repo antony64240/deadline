@@ -11,12 +11,12 @@ public class WorkDay implements Serializable {
 
     private List<Period> periodList = new ArrayList<>();
 
-    private Long TotalSecondInDay = 0L;
+    private Long TotalDurationInDay = 0L;
 
 
     public WorkDay(String workDay) {
         this.workDay = workDay;
-        this.TotalSecondInDay = 0L;
+        this.TotalDurationInDay = 0L;
     }
 
     public WorkDay(String workDay, List<Period> periods) throws Exception {
@@ -36,7 +36,7 @@ public class WorkDay implements Serializable {
                 throw new DeadLineException(periodToAdd + " are in conflict with " + period, 4);
             }
         }
-        this.TotalSecondInDay += periodToAdd.getDuration();
+        this.TotalDurationInDay += periodToAdd.getDuration();
         this.periodList.add(periodToAdd);
         this.sortPeriodList();
     }
@@ -53,7 +53,7 @@ public class WorkDay implements Serializable {
         return periodList;
     }
 
-    public Long getTotalSecondInDay() {
-        return TotalSecondInDay;
+    public Long getTotalDurationInDay() {
+        return TotalDurationInDay;
     }
 }

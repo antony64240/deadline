@@ -18,7 +18,7 @@ public class Period {
         this.endPeriod = LocalDateTime.of(0, 1, 1, Integer.parseInt(tab[0]), Integer.parseInt(tab[1]));
         Date tmpStartPeriod = Date.from(this.startPeriod.toInstant(ZoneOffset.UTC));
         Date tmpEndPeriod = Date.from(this.endPeriod.toInstant(ZoneOffset.UTC));
-        this.duration = (tmpEndPeriod.getTime() - tmpStartPeriod.getTime()) / 1000;
+        this.duration = (tmpEndPeriod.getTime() - tmpStartPeriod.getTime());
         if(this.duration<=0){
             throw new DeadLineException("Start period cannot be after or equal to end.", 2);
         }

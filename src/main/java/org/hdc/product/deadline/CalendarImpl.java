@@ -30,19 +30,19 @@ public class CalendarImpl extends Calendar implements Serializable {
     @Override
     public Date calcDeadLine(String duration, Date date) throws DeadLineException {
 
-        Long durationInSecond = Duration.parse(duration).getSeconds();
+        Long remainDuration = Duration.parse(duration).getSeconds() * 1000;
 
         LocalDateTime startLocalDate = DeadLineUtils.getLocalDateTime(date);
 
-        CurrentDay currentDay = new CurrentDay(startLocalDate, durationInSecond);
+        CurrentDay currentDay = new CurrentDay(startLocalDate, remainDuration);
 
         while (true) {
             if (workingDays.containsKey(currentDay.getLocalDateTime().getDayOfWeek().name()) && !this.isOffDay(startLocalDate.toLocalDate())) {
                 WorkDay workDayParam = workingDays.get(currentDay.getLocalDateTime().getDayOfWeek().name());
                 WorkDay currentWorkDayWithParamEnrichment = DeadLineUtils.setCurrentWorkDayWithParamDay(workDayParam, currentDay.getLocalDateTime().toLocalDate());
-                currentDay = DeadLineUtils.consumeDuration(currentWorkDayWithParamEnrichment, currentDay.getLocalDateTime(), currentDay.getDurationSecond());
+                currentDay = DeadLineUtils.consumeDuration(currentWorkDayWithParamEnrichment, currentDay.getLocalDateTime(), currentDay.getRemainingDuration());
             }
-            if(currentDay.getDurationSecond() <= 0){
+            if(currentDay.getRemainingDuration() <= 0){
                 break;
             }
             currentDay.setLocalDateTime(DeadLineUtils.incrementDay(currentDay));
