@@ -15,7 +15,7 @@
 ```java
     @Bean
     public Calendar calendar() throws DeadLineException {
-        return Calendar.createCalendar("MONDAY_TUESDAY")
+        return Calendar.createCalendar()
                 .createPeriod(DayOfWeek.MONDAY, "9:00", "17:00")
                 .createPeriod(DayOfWeek.TUESDAY, "10:00", "12:00")
                 .createPeriod(DayOfWeek.TUESDAY, "14:00", "18:00")
@@ -37,7 +37,7 @@
 ## Case 2 : 
 
 
-<h6>Now you want to specify several calendar because you have several teams that do not have the same working hour :</h6>
+<h6>Now you want to specify several calendar for different teams that do not have the same working hour :</h6>
 
 ```java
         @Bean
@@ -80,7 +80,8 @@
 
 
 <h6>For add in java project : </h6>
-```maven 
+    
+```java
 <dependency>
   <groupId>org.hdc.product</groupId>
   <artifactId>duration-deadline</artifactId>
