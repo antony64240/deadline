@@ -9,8 +9,8 @@ public abstract class Calendar implements Serializable {
     protected Calendar() {
     }
 
-    public static Builder newCalendar(String name) {
-        return new CalendarBuilderImpl(name);
+    public static Builder createCalendar() {
+        return new CalendarBuilder();
     }
 
 
@@ -24,10 +24,6 @@ public abstract class Calendar implements Serializable {
         Calendar build() throws DeadLineException;
     }
 
-    public interface Runner {
-
-        Date calcDeadLine(String duration, Date date) throws Exception;
-
-    }
+    public abstract Date calcDeadLine(String duration, Date date) throws DeadLineException;
 
 }

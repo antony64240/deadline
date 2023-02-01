@@ -10,9 +10,7 @@ import java.util.Date;
 import java.util.Map;
 import java.util.Set;
 
-public class CalendarImpl extends Calendar implements Calendar.Runner, Serializable {
-
-    private final String calendarName;
+public class CalendarImpl extends Calendar implements Serializable {
 
     private final Map<String, WorkDay> workingDays;
 
@@ -20,8 +18,7 @@ public class CalendarImpl extends Calendar implements Calendar.Runner, Serializa
 
     private final DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
 
-    public CalendarImpl(String calendarName, Map<String, WorkDay> workingDays, Set<String> offDays) {
-        this.calendarName = calendarName;
+    public CalendarImpl(Map<String, WorkDay> workingDays, Set<String> offDays) {
         this.workingDays = workingDays;
         this.offDays = offDays;
     }
@@ -33,19 +30,19 @@ public class CalendarImpl extends Calendar implements Calendar.Runner, Serializa
     @Override
     public Date calcDeadLine(String duration, Date date) throws DeadLineException {
 
-        Long durationInSecond = Duration.parse(duration).getSeconds();
+        Long remainDuration = Duration.parse(duration).getSeconds() * 1000;
 
         LocalDateTime startLocalDate = DeadLineUtils.getLocalDateTime(date);
 
-        CurrentDay currentDay = new CurrentDay(startLocalDate, durationInSecond);
+        CurrentDay currentDay = new CurrentDay(startLocalDate, remainDuration);
 
         while (true) {
             if (workingDays.containsKey(currentDay.getLocalDateTime().getDayOfWeek().name()) && !this.isOffDay(startLocalDate.toLocalDate())) {
                 WorkDay workDayParam = workingDays.get(currentDay.getLocalDateTime().getDayOfWeek().name());
                 WorkDay currentWorkDayWithParamEnrichment = DeadLineUtils.setCurrentWorkDayWithParamDay(workDayParam, currentDay.getLocalDateTime().toLocalDate());
-                currentDay = DeadLineUtils.consumeDuration(currentWorkDayWithParamEnrichment, currentDay.getLocalDateTime(), currentDay.getDurationSecond());
+                currentDay = DeadLineUtils.consumeDuration(currentWorkDayWithParamEnrichment, currentDay.getLocalDateTime(), currentDay.getRemainingDuration());
             }
-            if(currentDay.getDurationSecond() <= 0){
+            if(currentDay.getRemainingDuration() <= 0){
                 break;
             }
             currentDay.setLocalDateTime(DeadLineUtils.incrementDay(currentDay));

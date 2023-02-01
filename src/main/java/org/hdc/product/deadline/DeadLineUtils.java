@@ -22,43 +22,43 @@ public final class DeadLineUtils {
 
     public static CurrentDay consumeDuration(WorkDay workDay, LocalDateTime startDate, Long durationSecond) {
         CurrentDay currentDay = new CurrentDay();
-        currentDay.setDurationSecond(durationSecond);
+        currentDay.setRemainingDuration(durationSecond);
         currentDay.setLocalDateTime(startDate);
 
-        if(startDate.isBefore(workDay.getPeriodList().get(0).getStartPeriod()) && workDay.getTotalSecondInDay() < durationSecond){
-            currentDay.setDurationSecond(currentDay.getDurationSecond()-workDay.getTotalSecondInDay());
+        if(startDate.isBefore(workDay.getPeriodList().get(0).getStartPeriod()) && workDay.getTotalDurationInDay() < durationSecond){
+            currentDay.setRemainingDuration(currentDay.getRemainingDuration()-workDay.getTotalDurationInDay());
             currentDay.setLocalDateTime(workDay.getPeriodList().get(workDay.getPeriodList().size()-1).getEndPeriod());
         } else {
             for (Period period : workDay.getPeriodList()) {
                 if (startDate.isBefore(period.getStartPeriod()) || startDate.isEqual(period.getStartPeriod())) {
                     currentDay.setLocalDateTime(period.getStartPeriod());
-                    currentDay.setDurationSecond(currentDay.getDurationSecond());
-                    if (currentDay.getDurationSecond() > period.getDuration()) {
+                    currentDay.setRemainingDuration(currentDay.getRemainingDuration());
+                    if (currentDay.getRemainingDuration() > period.getDuration()) {
                         currentDay.setLocalDateTime(period.getEndPeriod());
-                        currentDay.setDurationSecond(currentDay.getDurationSecond() - period.getDuration());
+                        currentDay.setRemainingDuration(currentDay.getRemainingDuration() - period.getDuration());
                     } else {
-                        currentDay.setLocalDateTime(setTime(currentDay.getDurationSecond(), currentDay.getLocalDateTime()));
-                        currentDay.setDurationSecond(0L);
+                        currentDay.setLocalDateTime(setTime(currentDay.getRemainingDuration(), currentDay.getLocalDateTime()));
+                        currentDay.setRemainingDuration(0L);
                         break;
                     }
                 } else if (startDate.isAfter(period.getStartPeriod()) && startDate.isBefore(period.getEndPeriod())) {
                     currentDay.setLocalDateTime(startDate);
-                    currentDay.setDurationSecond(currentDay.getDurationSecond());
+                    currentDay.setRemainingDuration(currentDay.getRemainingDuration());
 
-                    Long secondStay = (Date.from(period.getEndPeriod().toInstant(ZoneOffset.UTC)).getTime() / 1000) - (Date.from(startDate.toInstant(ZoneOffset.UTC)).getTime() / 1000);
-                    if (secondStay > 0) {
-                        if (currentDay.getDurationSecond() > secondStay) {
+                    Long milliSecondStay = (Date.from(period.getEndPeriod().toInstant(ZoneOffset.UTC)).getTime()) - (Date.from(startDate.toInstant(ZoneOffset.UTC)).getTime() / 1000);
+                    if (milliSecondStay > 0) {
+                        if (currentDay.getRemainingDuration() > milliSecondStay) {
                             currentDay.setLocalDateTime(period.getEndPeriod());
-                            currentDay.setDurationSecond(currentDay.getDurationSecond() - secondStay);
+                            currentDay.setRemainingDuration(currentDay.getRemainingDuration() - milliSecondStay);
                         } else {
-                            currentDay.setLocalDateTime(setTime(currentDay.getDurationSecond(), currentDay.getLocalDateTime()));
-                            currentDay.setDurationSecond(0L);
+                            currentDay.setLocalDateTime(setTime(currentDay.getRemainingDuration(), currentDay.getLocalDateTime()));
+                            currentDay.setRemainingDuration(0L);
                             break;
                         }
                     }
                 } else if (startDate.isAfter(period.getEndPeriod()) || startDate.isEqual(period.getEndPeriod())) {
                     currentDay.setLocalDateTime(period.getEndPeriod());
-                    currentDay.setDurationSecond(currentDay.getDurationSecond());
+                    currentDay.setRemainingDuration(currentDay.getRemainingDuration());
                 }
             }
         }
@@ -66,11 +66,12 @@ public final class DeadLineUtils {
         return currentDay;
     }
 
-    private static LocalDateTime setTime(Long durationSecond, LocalDateTime localDateTime) {
-        Long numberHours = durationSecond / 3600;
-        Long numberMinute = (durationSecond % 3600) / 60;
-        Long numberSecond = (durationSecond % 60);
-        return localDateTime.plusMinutes(numberMinute).plusHours(numberHours).plusSeconds(numberSecond);
+    private static LocalDateTime setTime(Long remainingDuration, LocalDateTime localDateTime) {
+        long numberHours = remainingDuration / 3600000;
+        long numberMinute = (remainingDuration % 3600000) / 60000;
+        long numberSecond = ((remainingDuration % 3600000) % 60000) / 1000;
+        long numberMillisecond = ((remainingDuration % 3600000) % 60000) % 1000;
+        return localDateTime.plusMinutes(numberMinute).plusHours(numberHours).plusSeconds(numberSecond).plusNanos(numberMillisecond * 1000000);
     }
 
     public static LocalDateTime incrementDay(CurrentDay currentDay) {
