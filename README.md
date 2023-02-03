@@ -1,7 +1,7 @@
 <h1 align="center">Hi 👋, I'm Adam</h1>
 <h3 align="center">A passionate fullstack developer from France</h3>
 
-<h3 align="left">Project deadline:</h3>
+<h3 align="left">Business calendar library:</h3>
 <br/>
 <h6>the library allows you to calculate open days based on the opening hours of an entity</h6>
 
