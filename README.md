@@ -62,7 +62,7 @@
             return CalendarManager
                 .createCalendarManager()
                 .addCalendar("MONDAY_TUESDAY", calendar)
-                .addCalendar("MONDAY_THURSDAY", calendar)
+                .addCalendar("MONDAY_THURSDAY", calendar2)
                 .forceSystemDeadLineOnThrow(true) // default is false
                 .build();
         }
